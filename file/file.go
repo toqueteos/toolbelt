@@ -6,8 +6,22 @@ import (
 	"os"
 )
 
-// FileEachLines reads `filename` and calls a function for each line
-func FileEachLines(filename string, mapFn func(string)) error {
+// Lines reads `filename` and returns a string slice containing its lines
+func Lines(filename string) ([]string, error) {
+	var lines []string
+
+	err := LinesFunc(filename, func(line string) {
+		lines = append(lines, line)
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return lines, nil
+}
+
+// LinesFunc reads `filename` and calls a function for each line
+func LinesFunc(filename string, mapFn func(string)) error {
 	f, err := os.Open(filename)
 	if err != nil {
 		return fmt.Errorf("could not read file %q: %w", filename, err)
@@ -28,28 +42,4 @@ func FileEachLines(filename string, mapFn func(string)) error {
 	}
 
 	return scanner.Err()
-}
-
-// FileLines reads `filename` and returns a string slice containing its lines
-func FileLines(filename string) ([]string, error) {
-	f, err := os.Open(filename)
-	if err != nil {
-		return nil, fmt.Errorf("could not read file %q: %w", filename, err)
-	}
-	defer f.Close()
-
-	scanner := bufio.NewScanner(f)
-	scanner.Split(bufio.ScanLines)
-
-	var lines []string
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	err = scanner.Err()
-	if err != nil {
-		return nil, fmt.Errorf("could not scan file %q: %w", filename, err)
-	}
-
-	return lines, nil
 }

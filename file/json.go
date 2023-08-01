@@ -26,9 +26,9 @@ func WithEscape(value bool) OptionJSON {
 	}
 }
 
-// FileJSONEncode encodes a value as JSON and writes it into filename.
+// JSONEncode encodes a value as JSON and writes it into filename.
 // By default indent (tab) and escaping are enabled.
-func FileJSONEncode(filename string, v any, opts ...OptionJSON) error {
+func JSONEncode(filename string, v any, opts ...OptionJSON) error {
 	f, err := os.Create(filename)
 	if err != nil {
 		return fmt.Errorf("could not create file %q: %w", filename, err)
@@ -59,8 +59,8 @@ func FileJSONEncode(filename string, v any, opts ...OptionJSON) error {
 	return nil
 }
 
-// FileJSONDecode opens filename and tries to decode its contents as JSON.
-func FileJSONDecode[T any](filename string) (T, error) {
+// JSONDecode opens filename and tries to decode its contents as JSON.
+func JSONDecode[T any](filename string) (T, error) {
 	var zero T
 
 	f, err := os.Open(filename)
@@ -69,11 +69,11 @@ func FileJSONDecode[T any](filename string) (T, error) {
 	}
 	defer f.Close()
 
-	return FileJSONDecodeFS[T](f)
+	return JSONDecodeFS[T](f)
 }
 
-// FileJSONDecodeFS reads a file contents and tries to decode them as JSON.
-func FileJSONDecodeFS[T any](f fs.File) (T, error) {
+// JSONDecodeFS reads a file contents and tries to decode them as JSON.
+func JSONDecodeFS[T any](f fs.File) (T, error) {
 	var zero T
 	var v T
 	err := json.NewDecoder(f).Decode(&v)
