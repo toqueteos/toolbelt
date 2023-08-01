@@ -1,6 +1,10 @@
 package set
 
-import "sync"
+import (
+	"sync"
+
+	"golang.org/x/exp/maps"
+)
 
 type SyncSet[T comparable] struct {
 	sync.RWMutex
@@ -28,12 +32,7 @@ func (h *SyncSet[T]) Count() int {
 
 func (h *SyncSet[T]) Items() []T {
 	h.RLock()
-	res := make([]T, len(h.store))
-	idx := 0
-	for item := range h.store {
-		res[idx] = item
-		idx++
-	}
+	res := maps.Keys(h.store)
 	h.RUnlock()
 	return res
 }

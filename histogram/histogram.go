@@ -1,5 +1,7 @@
 package histogram
 
+import "golang.org/x/exp/maps"
+
 type Histogram[T comparable] struct {
 	store map[T]int
 }
@@ -20,9 +22,5 @@ func (h *Histogram[T]) Count() int {
 }
 
 func (h *Histogram[T]) Items() map[T]int {
-	res := make(map[T]int, len(h.store))
-	for k, v := range h.store {
-		res[k] = v
-	}
-	return res
+	return maps.Clone(h.store)
 }
