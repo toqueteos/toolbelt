@@ -7,25 +7,6 @@ import (
 	"os"
 )
 
-type OptionJSON func(*ConfigJSON)
-
-type ConfigJSON struct {
-	Indent string
-	Escape bool
-}
-
-func WithPretty() OptionJSON {
-	return func(o *ConfigJSON) {
-		o.Indent = "\t"
-	}
-}
-
-func WithEscape(value bool) OptionJSON {
-	return func(o *ConfigJSON) {
-		o.Escape = value
-	}
-}
-
 // JSONEncode encodes a value as JSON and writes it into filename.
 // By default indent (tab) and escaping are enabled.
 func JSONEncode(filename string, v any, opts ...OptionJSON) error {
@@ -35,21 +16,7 @@ func JSONEncode(filename string, v any, opts ...OptionJSON) error {
 	}
 	defer f.Close()
 
-	opt := &ConfigJSON{}
-	for _, o := range opts {
-		o(opt)
-	}
-	if len(opts) == 0 {
-		opt.Indent = "\t"
-		opt.Escape = true
-	}
-
-	indent := opt.Indent
-	escape := opt.Escape
-
-	enc := json.NewEncoder(f)
-	enc.SetIndent("", indent)
-	enc.SetEscapeHTML(escape)
+	enc := jsonEncoderWithOptions(f, opts)
 
 	err = enc.Encode(v)
 	if err != nil {

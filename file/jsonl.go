@@ -13,13 +13,13 @@ type JSONLEncoder struct {
 	enc *json.Encoder
 }
 
-func NewJSONLEncoder(filename string) (*JSONLEncoder, error) {
+func NewJSONLEncoder(filename string, opts ...OptionJSON) (*JSONLEncoder, error) {
 	f, err := os.Create(filename)
 	if err != nil {
 		return nil, fmt.Errorf("could not create file %q: %v", filename, err)
 	}
 
-	return &JSONLEncoder{f: f, enc: json.NewEncoder(f)}, nil
+	return &JSONLEncoder{f: f, enc: jsonEncoderWithOptions(f, opts)}, nil
 }
 
 func (e *JSONLEncoder) Close() error {
