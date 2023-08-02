@@ -12,9 +12,9 @@ type ConfigJSON struct {
 	Escape bool
 }
 
-func WithPretty() OptionJSON {
+func WithIndent(value string) OptionJSON {
 	return func(o *ConfigJSON) {
-		o.Indent = "\t"
+		o.Indent = value
 	}
 }
 
@@ -24,13 +24,17 @@ func WithEscape(value bool) OptionJSON {
 	}
 }
 
+func WithPretty() OptionJSON {
+	return WithIndent("\t")
+}
+
 func jsonEncoderWithOptions(w io.Writer, opts []OptionJSON) *json.Encoder {
 	opt := &ConfigJSON{}
 	for _, o := range opts {
 		o(opt)
 	}
 	if len(opts) == 0 {
-		opt.Indent = "\t"
+		opt.Indent = ""
 		opt.Escape = true
 	}
 
