@@ -11,14 +11,18 @@ type ErrMultiple struct {
 }
 
 func ErrJoin(errs ...error) error {
-	return NewErrMultiple(errs)
+	return NewErrMultiple(errs...)
 }
 
-func NewErrMultiple(errs []error) *ErrMultiple {
+func ErrJoinCustom(sep string, errs ...error) error {
+	return NewErrMultiple(errs...)
+}
+
+func NewErrMultiple(errs ...error) *ErrMultiple {
 	return &ErrMultiple{Errors: errs, Separator: " | "}
 }
 
-func NewErrMultipleCustom(errs []error, sep string) *ErrMultiple {
+func NewErrMultipleCustom(sep string, errs ...error) *ErrMultiple {
 	return &ErrMultiple{Errors: errs, Separator: sep}
 }
 
