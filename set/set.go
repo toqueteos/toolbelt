@@ -27,6 +27,11 @@ func (h *Set[T]) Count() int {
 	return total
 }
 
+func (h *Set[T]) Has(item T) bool {
+	_, ok := h.store[item]
+	return ok
+}
+
 func (h *Set[T]) Items() []T {
 	return maps.Keys(h.store)
 }

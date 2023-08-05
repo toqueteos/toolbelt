@@ -14,6 +14,9 @@ func TestSyncSet(t *testing.T) {
 
 	require.Equal(t, 1, s.Count())
 	require.ElementsMatch(t, []int{1}, s.Items())
+	require.Equal(t, true, s.Has(1))
+	require.Equal(t, false, s.Has(2))
+	require.Equal(t, false, s.Has(3))
 
 	s.Add(2)
 	s.Add(3)
@@ -21,9 +24,15 @@ func TestSyncSet(t *testing.T) {
 
 	require.Equal(t, 3, s.Count())
 	require.ElementsMatch(t, []int{1, 2, 3}, s.Items())
+	require.Equal(t, true, s.Has(1))
+	require.Equal(t, true, s.Has(2))
+	require.Equal(t, true, s.Has(3))
 
 	s.Remove(1)
 
 	require.Equal(t, 2, s.Count())
 	require.ElementsMatch(t, []int{2, 3}, s.Items())
+	require.Equal(t, false, s.Has(1))
+	require.Equal(t, true, s.Has(2))
+	require.Equal(t, true, s.Has(3))
 }

@@ -36,6 +36,13 @@ func (h *SyncSet[T]) Count() int {
 	return total
 }
 
+func (h *SyncSet[T]) Has(item T) bool {
+	h.RLock()
+	_, ok := h.store[item]
+	h.RUnlock()
+	return ok
+}
+
 func (h *SyncSet[T]) Items() []T {
 	h.RLock()
 	res := maps.Keys(h.store)
