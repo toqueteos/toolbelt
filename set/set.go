@@ -35,3 +35,7 @@ func (h *Set[T]) Has(item T) bool {
 func (h *Set[T]) Items() []T {
 	return maps.Keys(h.store)
 }
+
+func (h *Set[T]) Clear() {
+	maps.Clear(h.store)
+}

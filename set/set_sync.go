@@ -49,3 +49,9 @@ func (h *SyncSet[T]) Items() []T {
 	h.RUnlock()
 	return res
 }
+
+func (h *SyncSet[T]) Clear() {
+	h.Lock()
+	maps.Clear(h.store)
+	h.Unlock()
+}

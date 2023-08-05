@@ -35,4 +35,12 @@ func TestSyncSet(t *testing.T) {
 	require.Equal(t, false, s.Has(1))
 	require.Equal(t, true, s.Has(2))
 	require.Equal(t, true, s.Has(3))
+
+	s.Clear()
+
+	require.Equal(t, 0, s.Count())
+	require.ElementsMatch(t, []int{}, s.Items())
+	require.Equal(t, false, s.Has(1))
+	require.Equal(t, false, s.Has(2))
+	require.Equal(t, false, s.Has(3))
 }
