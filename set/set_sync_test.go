@@ -21,4 +21,9 @@ func TestSyncSet(t *testing.T) {
 
 	require.Equal(t, 3, s.Count())
 	require.ElementsMatch(t, []int{1, 2, 3}, s.Items())
+
+	s.Remove(1)
+
+	require.Equal(t, 2, s.Count())
+	require.ElementsMatch(t, []int{2, 3}, s.Items())
 }

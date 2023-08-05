@@ -18,6 +18,10 @@ func (h *Set[T]) Add(item T) {
 	h.store[item] = struct{}{}
 }
 
+func (h *Set[T]) Remove(item T) {
+	delete(h.store, item)
+}
+
 func (h *Set[T]) Count() int {
 	total := len(h.store)
 	return total

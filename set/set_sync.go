@@ -23,6 +23,12 @@ func (h *SyncSet[T]) Add(item T) {
 	h.Unlock()
 }
 
+func (h *SyncSet[T]) Remove(item T) {
+	h.Lock()
+	delete(h.store, item)
+	h.Unlock()
+}
+
 func (h *SyncSet[T]) Count() int {
 	h.RLock()
 	total := len(h.store)
