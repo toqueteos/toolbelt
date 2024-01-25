@@ -14,6 +14,14 @@ func New[T comparable]() *Set[T] {
 	}
 }
 
+func NewFrom[T comparable](inputs []T) *Set[T] {
+	s := New[T]()
+	for _, item := range inputs {
+		s.Add(item)
+	}
+	return s
+}
+
 func (h *Set[T]) Add(item T) {
 	h.store[item] = struct{}{}
 }

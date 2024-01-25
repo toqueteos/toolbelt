@@ -17,6 +17,14 @@ func NewSync[T comparable]() *SyncSet[T] {
 	}
 }
 
+func NewSyncFrom[T comparable](inputs []T) *SyncSet[T] {
+	s := NewSync[T]()
+	for _, item := range inputs {
+		s.store[item] = struct{}{}
+	}
+	return s
+}
+
 func (h *SyncSet[T]) Add(item T) {
 	h.Lock()
 	h.store[item] = struct{}{}
