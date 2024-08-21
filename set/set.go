@@ -1,7 +1,8 @@
 package set
 
 import (
-	"golang.org/x/exp/maps"
+	"iter"
+	"maps"
 )
 
 type Set[T comparable] struct {
@@ -40,10 +41,10 @@ func (h *Set[T]) Has(item T) bool {
 	return ok
 }
 
-func (h *Set[T]) Items() []T {
+func (h *Set[T]) Items() iter.Seq[T] {
 	return maps.Keys(h.store)
 }
 
 func (h *Set[T]) Clear() {
-	maps.Clear(h.store)
+	clear(h.store)
 }

@@ -1,9 +1,10 @@
 package set
 
 import (
+	"iter"
+	"maps"
+	"slices"
 	"sync"
-
-	"golang.org/x/exp/maps"
 )
 
 type SyncSet[T comparable] struct {
@@ -51,15 +52,15 @@ func (h *SyncSet[T]) Has(item T) bool {
 	return ok
 }
 
-func (h *SyncSet[T]) Items() []T {
+func (h *SyncSet[T]) Items() iter.Seq[T] {
 	h.RLock()
-	res := maps.Keys(h.store)
+	res := slices.Collect(maps.Keys(h.store))
 	h.RUnlock()
-	return res
+	return slices.Values(res)
 }
 
 func (h *SyncSet[T]) Clear() {
 	h.Lock()
-	maps.Clear(h.store)
+	clear(h.store)
 	h.Unlock()
 }

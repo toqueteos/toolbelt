@@ -1,9 +1,8 @@
 package histogram
 
 import (
+	"maps"
 	"sync"
-
-	"golang.org/x/exp/maps"
 )
 
 type SyncHistogram[T comparable] struct {

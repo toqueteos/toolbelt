@@ -1,6 +1,6 @@
 package histogram
 
-import "golang.org/x/exp/maps"
+import "maps"
 
 type Histogram[T comparable] struct {
 	store map[T]int
